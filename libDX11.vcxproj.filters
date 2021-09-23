@@ -30,7 +30,7 @@
     <ClCompile Include="D3DTexture2D.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="inc\D3DDepthStencil.cpp">
+    <ClCompile Include="D3DDepthStencil.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

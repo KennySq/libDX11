@@ -136,4 +136,12 @@ namespace NARCO
 		return val;
 	}
 
+	NARCO_API long long MakeHash(unsigned int i)
+	{
+		i = ((i >> 16) ^ i) * 0x45d9f3b;
+		i = ((i >> 16) ^ i) * 0x45d9f3b;
+		i = (i >> 16) ^ i;
+		return i;
+	}
+
 }

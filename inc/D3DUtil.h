@@ -29,5 +29,5 @@ namespace NARCO
 #endif
 
 	NARCO_API long long MakeHash(std::string s);
-
+	NARCO_API long long MakeHash(unsigned int i);
 }
