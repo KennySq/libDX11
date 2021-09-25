@@ -8,13 +8,21 @@ namespace NARCO
 	{
 	public:
 
-		NARCO_API D3DTexture2D(ID3D11Device* device, DXGI_FORMAT format, D3D11_BIND_FLAG bindFlag, D3D11_USAGE usage, unsigned int width, unsigned int height, unsigned int mipLevels, unsigned int cpuAccessFlag = 0);
+		NARCO_API D3DTexture2D(ID3D11Device* device, DXGI_FORMAT format, unsigned int bindFlag, D3D11_USAGE usage, unsigned int width, unsigned int height, unsigned int mipLevels, unsigned int cpuAccessFlag = 0);
 		NARCO_API ~D3DTexture2D();
+
+		unsigned int GetBindFlags() const { return mBindFlags; }
+
+		ID3D11RenderTargetView* GetRenderTarget() const { return mRenderTargetView.Get(); }
+		ID3D11ShaderResourceView* GetShaderResource() const { return mShaderResourceView.Get(); }
+		ID3D11UnorderedAccessView* GetUnorderedAccess() const { return mUnorderedAccessView.Get(); }
+
 	private:
 		unsigned int mWidth;
 		unsigned int mHeight;
 
 		D3D11_CPU_ACCESS_FLAG mHostAccess;
+		unsigned int mBindFlags;
 
 		ComPtr<ID3D11Texture2D> mTexture = nullptr;
 

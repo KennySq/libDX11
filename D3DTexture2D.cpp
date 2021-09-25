@@ -3,8 +3,8 @@
 
 namespace NARCO
 {
-	D3DTexture2D::D3DTexture2D(ID3D11Device* device, DXGI_FORMAT format, D3D11_BIND_FLAG bindFlag, D3D11_USAGE usage, unsigned int width, unsigned int height, unsigned int mipLevels, unsigned int cpuAccessFlag)
-		: mWidth(width), mHeight(height), mHostAccess((D3D11_CPU_ACCESS_FLAG)cpuAccessFlag)
+	D3DTexture2D::D3DTexture2D(ID3D11Device* device, DXGI_FORMAT format, unsigned int bindFlag, D3D11_USAGE usage, unsigned int width, unsigned int height, unsigned int mipLevels, unsigned int cpuAccessFlag)
+		: mWidth(width), mHeight(height), mHostAccess((D3D11_CPU_ACCESS_FLAG)cpuAccessFlag), mBindFlags(bindFlag)
 	{
 		D3D11_TEXTURE2D_DESC desc{};
 
@@ -27,7 +27,7 @@ namespace NARCO
 			return;
 		}
 
-		if ((bindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET) == 1)
+		if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
 		{
 			D3D11_RENDER_TARGET_VIEW_DESC rtvDesc{};
 
@@ -46,11 +46,13 @@ namespace NARCO
 		}
 
 
-		if ((bindFlag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE) == 1)
+		if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
 			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 
 			srvDesc.Format = format;
+			srvDesc.Texture2D.MostDetailedMip = 0;
+			srvDesc.Texture2D.MipLevels = mipLevels;
 			srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 
 			result = device->CreateShaderResourceView(mTexture.Get(), &srvDesc, mShaderResourceView.GetAddressOf());
@@ -69,7 +71,7 @@ namespace NARCO
 			}
 		}
 
-		if ((bindFlag & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS) == 1)
+		if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
 		{
 			D3D11_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 

@@ -54,7 +54,7 @@ namespace NARCO
 		rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 
 		result = device->CreateRenderTargetView(mBuffer.Get(), &rtvDesc, mRenderTargetView.GetAddressOf());
-		ExceptionError(result, "creating render target view.");
+		ExceptionError(result, "Creating render target view.");
 
 		if (result != S_OK)
 		{
@@ -64,6 +64,19 @@ namespace NARCO
 			
 			return;
 		}
+
+		D3D11_VIEWPORT viewport;
+
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.MinDepth = 0;
+		viewport.MaxDepth = 1;
+		viewport.Width = width;
+		viewport.Height = height;
+
+		mViewports.emplace_back(viewport);
+
+		mMainViewport = &mViewports[0];
 	}
 
 	D3DDisplay::~D3DDisplay()

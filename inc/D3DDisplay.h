@@ -34,9 +34,26 @@ namespace NARCO
 			mSwapChain->Present(snycInterval, 0);
 		}
 
+		NARCO_API const D3D11_VIEWPORT& GetMainViewport() const { return *mMainViewport; }
+		NARCO_API const D3D11_VIEWPORT& GetViewport(unsigned int index) const
+		{
+			if (index < 0 || index >= mViewports.size())
+			{
+				ExceptionError(E_INVALIDARG, "GetViewport() => invalid index");
+				throw std::invalid_argument("Invalid index");
+			}
+			
+			return mViewports[index];
+		}
+
+
+
 	private:
 		NARCO_API D3DDisplay(const D3DDisplay& e) = delete;
 		NARCO_API D3DDisplay(const D3DDisplay&& e) = delete;
+
+		std::vector<D3D11_VIEWPORT> mViewports;
+		D3D11_VIEWPORT* mMainViewport;
 
 		ComPtr<IDXGISwapChain> mSwapChain;
 		ComPtr<IDXGIFactory> mFactory;

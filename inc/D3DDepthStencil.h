@@ -10,6 +10,7 @@ namespace NARCO
 		NARCO_API D3DDepthStencil(ID3D11Device* device, D3D11_BIND_FLAG bindFlags, D3D11_USAGE usage, unsigned int width, unsigned int height, unsigned int mipLevels, unsigned int cpuAccessFlag = 0);
 		NARCO_API ~D3DDepthStencil();
 
+		NARCO_API ID3D11DepthStencilView* GetDepthStencilView() const { return mDepthStencilView.Get(); }
 
 	private:
 		unsigned int mWidth;
